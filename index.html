@@ -1053,7 +1053,7 @@
      SECTION 6 & 7 — LOVE NOTES & ENDING (MERGED HEARTS)
 ══════════════════════════════════════ -->
   <div id="notes-ending-wrapper" style="position: relative; overflow: hidden;">
-    <canvas id="hearts-canvas" style="position: absolute; inset: 0; z-index: 0; pointer-events: none;"></canvas>
+    <canvas id="hearts-canvas" style="position: absolute; inset: 0; z-index: 5; pointer-events: none;"></canvas>
 
     <section id="notes" style="min-height:70svh; position: relative; z-index: 1;">
       <div class="notes-title">
@@ -1064,7 +1064,7 @@
 
     <section id="ending" style="position: relative; z-index: 1; padding-top: 60px;">
       <p class="end-label">✦ &nbsp; with all my love &nbsp; ✦</p>
-      <h2 class="end-title"><span class="sparkle">I Love<br>You Maa</span></h2>
+      <h2 class="end-title"><span class="sparkle">Happy<br>Mother's Day</span></h2>
       <div class="divider"></div>
       <p class="end-sub">
         If I carry even a fraction of your kindness,<br>
@@ -1253,7 +1253,14 @@
         requestAnimationFrame(draw);
       }
       new ResizeObserver(resize).observe(document.getElementById('notes-ending-wrapper'));
-      resize(); draw();
+      resize(); 
+      // Pre-populate hearts across the merged sections
+      for(let i=0; i<40; i++) {
+        let h = new Heart();
+        h.y = Math.random() * c.height; // Randomize vertical position
+        hearts.push(h);
+      }
+      draw();
     })();
 
     /* ── PARALLAX (desktop bonus) ── */
