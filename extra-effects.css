@@ -1,0 +1,110 @@
+/* ══════════════════════════════════════
+   EXTRA 3D & AESTHETIC EFFECTS
+══════════════════════════════════════ */
+
+/* Clean up the scrollbar for a cinematic feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(232, 213, 176, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 213, 176, 0.4);
+}
+
+/* Luxury Vignette Overlay for cinematic depth */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.4) 150%);
+  z-index: 999;
+}
+
+/* Ensure perspective context for 3D scrolling */
+main {
+  perspective: 1500px;
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+  overflow-x: hidden;
+}
+
+/* Base states for 3D scroll elements */
+.scroll-3d-item {
+  transition: transform 0.1s linear, opacity 0.4s ease-out;
+  will-change: transform;
+}
+
+/* Enhance existing cards for 3D depth */
+.mem-card,
+.fcard,
+.pgrid-item {
+  transform-style: preserve-3d;
+}
+
+/* Floating dust particles for extra luxury */
+.dust-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 213, 176, 0.8) 0%, rgba(232, 213, 176, 0) 70%);
+  pointer-events: none;
+  animation: dustFloat var(--dur) infinite ease-in-out;
+  opacity: 0;
+  z-index: 5;
+}
+
+@keyframes dustFloat {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: var(--max-op, 0.4);
+  }
+
+  80% {
+    opacity: var(--max-op, 0.4);
+  }
+
+  100% {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Soft pulsing glow for the gold divider */
+.divider {
+  box-shadow: 0 0 15px rgba(232, 213, 176, 0.3);
+  animation: goldPulse 4s infinite alternate;
+}
+
+@keyframes goldPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(232, 213, 176, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 20px rgba(232, 213, 176, 0.4);
+  }
+}
+
+/* 3D Title depth and fix for WebKit text gradient clipping */
+.section-title span.sparkle,
+.end-title span.sparkle {
+  display: inline-block;
+  transform: translateZ(20px);
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>To The Purest Soul</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="extra-effects.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink: #f4c2d0;
+      --blue: #b8d4f0;
+      --lavender: #d4bff0;
+      --pearl: #faf7f4;
+      --navy: #0d1b3e;
+      --gold: #e8d5b0;
+      --white: #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0a0a12;
+      color: var(--pearl);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── CANVAS STARS ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      overflow: hidden;
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 1 — INTRO
+  ──────────────────────────────────────── */
+    #intro {
+      background: radial-gradient(ellipse 120% 80% at 50% 40%,
+          #1a0a2e 0%, #0d1b3e 40%, #0a0a12 100%);
+    }
+
+    .intro-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .glow-pink {
+      width: 340px;
+      height: 340px;
+      background: rgba(244, 194, 208, .18);
+      top: -80px;
+      left: -60px;
+    }
+
+    .glow-blue {
+      width: 300px;
+      height: 300px;
+      background: rgba(184, 212, 240, .15);
+      bottom: 0;
+      right: -60px;
+    }
+
+    .glow-lav {
+      width: 200px;
+      height: 200px;
+      background: rgba(212, 191, 240, .12);
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .intro-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 200;
+      font-size: .7rem;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeUp .9s .3s forwards;
+    }
+
+    .title-main {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.4rem, 8vw, 4.8rem);
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fdf6ec 0%, #e8d5b0 40%, #f4c2d0 80%, #d4bff0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeUp .9s .55s forwards;
+      margin: 18px 0 14px;
+    }
+
+    /* sparkle text wrapper */
+    .sparkle-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sparkle-wrap::after {
+      content: '✦';
+      position: absolute;
+      top: -10px;
+      right: -18px;
+      font-size: .7rem;
+      color: var(--gold);
+      animation: twinkle 2s 1.8s infinite;
+    }
+
+    .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3.5vw, 1.4rem);
+      color: rgba(212, 191, 240, .85);
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp .9s .8s forwards;
+    }
+
+    .fade-line {
+      font-size: clamp(.75rem, 2.5vw, .9rem);
+      color: rgba(250, 247, 244, .4);
+      letter-spacing: .1em;
+      margin-top: 12px;
+      opacity: 0;
+      animation: fadeUp .9s 1.05s forwards;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp .9s 1.6s forwards;
+    }
+
+    .scroll-cue span {
+      font-size: .6rem;
+      letter-spacing: .3em;
+      color: rgba(255, 255, 255, .3);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: pulse-line 2s 1.8s infinite;
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 2 — MEMORY THREAD
+  ──────────────────────────────────────── */
+    #memory {
+      background: linear-gradient(180deg, #0a0a12 0%, #12081e 50%, #0d1b3e 100%);
+      padding-top: 100px;
+    }
+
+    .thread-line {
+      position: absolute;
+      left: 50%;
+      top: 80px;
+      bottom: 80px;
+      width: 1px;
+      background: linear-gradient(to bottom,
+          transparent, rgba(212, 191, 240, .25) 10%, rgba(212, 191, 240, .25) 90%, transparent);
+      transform: translateX(-50%);
+    }
+
+    .memory-stack {
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      z-index: 2;
+      perspective: 1200px;
+    }
+
+    .mem-card {
+      position: relative;
+      margin: 40px 0;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .8s, transform .8s;
+    }
+
+    .mem-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mem-card:nth-child(odd) {
+      margin-left: auto;
+      margin-right: 12px;
+    }
+
+    .mem-card:nth-child(even) {
+      margin-right: auto;
+      margin-left: 12px;
+    }
+
+    .polaroid {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 4px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .55rem;
+      letter-spacing: .15em;
+      color: rgba(255, 255, 255, .25);
+      text-transform: uppercase;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .1);
+      transform: rotate(var(--rot, -2deg));
+      transition: transform .4s;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .9;
+      display: block;
+    }
+
+    .polaroid-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .75rem;
+      color: rgba(250, 247, 244, .5);
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .note-bubble {
+      max-width: 200px;
+      background: linear-gradient(135deg, rgba(244, 194, 208, .1), rgba(212, 191, 240, .08));
+      border: 1px solid rgba(244, 194, 208, .2);
+      border-radius: 16px 16px 16px 4px;
+      padding: 14px 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .95rem;
+      line-height: 1.6;
+      color: rgba(250, 247, 244, .75);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .3);
+    }
+
+    .mem-card:nth-child(odd) .note-bubble {
+      border-radius: 16px 16px 4px 16px;
+    }
+
+    .thread-dot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--lavender);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 14px var(--lavender);
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 3 — THE WOMAN YOU ARE
+  ──────────────────────────────────────── */
+    #woman {
+      background: radial-gradient(ellipse 140% 100% at 50% 60%,
+          #1a0830 0%, #0d0520 50%, #0a0a12 100%);
+    }
+
+    .section-tag {
+      font-size: .6rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .7;
+      margin-bottom: 20px;
+    }
+
+    .float-cards {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 420px;
+      margin-top: 30px;
+      perspective: 1200px;
+    }
+
+    .fcard {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .07) 0%, rgba(255, 255, 255, .02) 100%);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      padding: 22px 26px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .12);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: rgba(250, 247, 244, .8);
+      opacity: 0;
+      transform: translateY(30px) scale(.97);
+      transition: opacity .9s var(--d, 0s), transform .9s var(--d, 0s);
+    }
+
+    .fcard.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .fcard:nth-child(1) {
+      top: 0;
+      left: 0;
+      width: 72%;
+      --d: .0s;
+      transform-style: preserve-3d;
+      z-index: 3;
+    }
+
+    .fcard:nth-child(2) {
+      top: 38%;
+      right: 0;
+      width: 68%;
+      --d: .15s;
+      z-index: 2;
+    }
+
+    .fcard:nth-child(3) {
+      top: 68%;
+      left: 10%;
+      width: 76%;
+      --d: .3s;
+      z-index: 1;
+    }
+
+    .fcard-accent {
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 12px;
+      opacity: .5;
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 4 — THE SACRIFICE (DARK PEAK)
+  ──────────────────────────────────────── */
+    #sacrifice {
+      background: #04060f;
+      padding: 120px 24px;
+    }
+
+    .sacrifice-inner {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 480px;
+    }
+
+    .icon-orbit {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(212, 191, 240, .2);
+      animation: spin 12s linear infinite;
+    }
+
+    .orbit-ring:nth-child(2) {
+      inset: 14px;
+      border-color: rgba(232, 213, 176, .15);
+      animation-duration: 9s;
+      animation-direction: reverse;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--lavender);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px var(--lavender);
+    }
+
+    .orbit-core {
+      position: absolute;
+      inset: 30px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 191, 240, .2), rgba(184, 212, 240, .1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .sac-line {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: rgba(250, 247, 244, .85);
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .8s, transform .8s;
+    }
+
+    .sac-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sac-line.big {
+      font-size: clamp(1.3rem, 5vw, 2rem);
+      color: var(--pearl);
+    }
+
+    .sac-line.small {
+      font-size: .85rem;
+      color: rgba(250, 247, 244, .45);
+      letter-spacing: .05em;
+      margin-top: 6px;
+      font-family: 'Outfit', sans-serif;
+      font-style: normal;
+    }
+
+    .sac-line.gold {
+      color: var(--gold);
+    }
+
+    .isro-badge {
+      display: inline-block;
+      border: 1px solid rgba(232, 213, 176, .3);
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      color: var(--gold);
+      margin: 20px 0;
+      background: rgba(232, 213, 176, .05);
+      opacity: 0;
+      transform: scale(.9);
+      transition: opacity .8s .3s, transform .8s .3s;
+    }
+
+    .isro-badge.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 5 — PRESENT DAY
+  ──────────────────────────────────────── */
+    #present {
+      background: linear-gradient(180deg, #04060f 0%, #0d1020 60%, #0a0a12 100%);
+    }
+
+    .present-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 30px;
+      perspective: 1200px;
+    }
+
+    .pgrid-item {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+      border: 1px solid rgba(255, 255, 255, .07);
+      position: relative;
+      opacity: 0;
+      transform: scale(.94) translateY(20px);
+      transition: opacity .8s, transform .8s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pgrid-item.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .pgrid-item:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+
+    .pgrid-placeholder {
+      font-size: .55rem;
+      letter-spacing: .15em;
+      color: rgba(255, 255, 255, .18);
+      text-transform: uppercase;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .pgrid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+
+    .pgrid-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(244, 194, 208, .08), rgba(212, 191, 240, .05));
+      pointer-events: none;
+    }
+
+    .present-lines {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .present-line {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(250, 247, 244, .65);
+      line-height: 2;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .7s, transform .7s;
+    }
+
+    .present-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 6 — LOVE NOTES
+  ──────────────────────────────────────── */
+    #notes {
+      background: #070711;
+      min-height: 80svh;
+      position: relative;
+    }
+
+    .notes-title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #notes-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .float-note {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(244, 194, 208, .1), rgba(212, 191, 240, .07));
+      border: 1px solid rgba(244, 194, 208, .18);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .88rem;
+      line-height: 1.6;
+      color: rgba(250, 247, 244, .7);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+      max-width: 200px;
+      animation: noteFloat var(--dur, 14s) var(--delay, 0s) infinite ease-in-out;
+      z-index: 2;
+      cursor: default;
+      transition: transform .3s;
+    }
+
+    .float-note:hover {
+      transform: scale(1.04) rotate(-1deg);
+    }
+
+    /* ────────────────────────────────────────
+     SECTION 7 — ENDING
+  ──────────────────────────────────────── */
+    #ending {
+      background: radial-gradient(ellipse 130% 100% at 50% 50%,
+          #1a0830 0%, #0d0520 60%, #04060f 100%);
+      text-align: center;
+      min-height: 100svh;
+    }
+
+    .end-label {
+      font-size: .6rem;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .6;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp .9s 0s forwards;
+    }
+
+    .end-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2.8rem, 12vw, 6rem);
+      line-height: 1.05;
+      background: linear-gradient(135deg, #fdf6ec, #e8d5b0, #f4c2d0, #d4bff0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      animation: fadeUp 1.1s .3s forwards;
+    }
+
+    .end-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      color: rgba(250, 247, 244, .55);
+      max-width: 340px;
+      margin: 20px auto 0;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp .9s .7s forwards;
+    }
+
+    .end-final {
+      font-size: .75rem;
+      letter-spacing: .12em;
+      color: rgba(250, 247, 244, .3);
+      margin-top: 30px;
+      opacity: 0;
+      animation: fadeUp .9s 1.1s forwards;
+    }
+
+    #hearts-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ────────────────────────────────────────
+     SHARED HEADING STYLES
+  ──────────────────────────────────────── */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 6vw, 2.8rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, #fdf6ec, #e8d5b0 40%, #f4c2d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .9s, transform .9s;
+      filter: drop-shadow(0 4px 16px rgba(232, 213, 176, 0.2));
+    }
+
+    .section-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ────────────────────────────────────────
+     PARTICLES OVERLAY
+  ──────────────────────────────────────── */
+    .particles-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .12);
+      animation: floatP var(--d, 20s) var(--dl, 0s) infinite linear;
+    }
+
+    /* ────────────────────────────────────────
+     KEYFRAMES
+  ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: .2;
+        transform: scale(.8) rotate(0deg);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(20deg);
+      }
+    }
+
+    @keyframes pulse-line {
+
+      0%,
+      100% {
+        opacity: .4;
+        transform: scaleY(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scaleY(1.08);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes floatP {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: .8;
+      }
+
+      90% {
+        opacity: .3;
+      }
+
+      100% {
+        transform: translateY(-60px) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @keyframes noteFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(var(--rot, 0deg));
+      }
+
+      50% {
+        transform: translateY(-18px) rotate(calc(var(--rot, 0deg) + 2deg));
+      }
+    }
+
+    /* sparkle pseudo across the site */
+    .sparkle {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sparkle::before,
+    .sparkle::after {
+      content: '✦';
+      position: absolute;
+      font-size: .5rem;
+      color: var(--gold);
+      animation: twinkle 2.5s infinite;
+    }
+
+    .sparkle::before {
+      top: -8px;
+      left: -12px;
+      animation-delay: 0s;
+    }
+
+    .sparkle::after {
+      bottom: -8px;
+      right: -12px;
+      animation-delay: 1.2s;
+    }
+
+    /* divider */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 24px auto;
+      opacity: .5;
+    }
+
+    /* section number */
+    .sec-num {
+      font-size: .55rem;
+      letter-spacing: .4em;
+      color: rgba(255, 255, 255, .2);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="starfield"></canvas>
+
+  <!-- ══════════════════════════════════════
+     SECTION 1 — INTRO
+══════════════════════════════════════ -->
+  <section id="intro">
+    <div class="particles-overlay" id="intro-particles"></div>
+    <div class="intro-glow glow-pink"></div>
+    <div class="intro-glow glow-blue"></div>
+    <div class="intro-glow glow-lav"></div>
+
+    <div class="intro-content">
+      <p class="eyebrow">✦ &nbsp; for her &nbsp; ✦</p>
+      <h1 class="title-main">
+        To The<br>Purest Soul<br>I Know
+      </h1>
+      <p class="subtitle">the woman who made love feel effortless.</p>
+      <p class="fade-line">a little universe built from your love.</p>
+    </div>
+
+    <div class="scroll-cue">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 2 — MEMORY THREAD
+══════════════════════════════════════ -->
+  <section id="memory">
+    <div class="thread-line"></div>
+    <h2 class="section-title"><span class="sparkle">Where It All</span><br>Began</h2>
+    <div class="divider"></div>
+
+    <div class="memory-stack">
+
+      <div class="mem-card" style="--rot:-3deg">
+        <div class="thread-dot"></div>
+        <div class="polaroid">
+          <img src="1photo.jpg">
+        </div>
+        <p class="polaroid-label">childhood</p>
+      </div>
+      <div class="mem-card" style="margin-left:auto">
+        <div class="note-bubble">
+          "home always looked softer with you around."
+        </div>
+      </div>
+
+      <div class="mem-card" style="--rot:2deg; margin-left:auto">
+        <div class="thread-dot"></div>
+        <div class="polaroid">
+          <img src="photo1.jpg">
+        </div>
+        <p class="polaroid-label">growing up</p>
+      </div>
+      <div class="mem-card">
+        <div class="note-bubble" style="border-radius:16px 16px 16px 4px">
+          "you held my tiny hands before i understood life."
+        </div>
+      </div>
+
+      <div class="mem-card" style="--rot:-1.5deg">
+        <div class="thread-dot"></div>
+        <div class="polaroid">
+          <img src="photo3.jpg">
+        </div>
+        <p class="polaroid-label">together</p>
+      </div>
+      <div class="mem-card" style="margin-left:auto">
+        <div class="note-bubble">
+          "every happy childhood secretly has a mother carrying everything."
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 3 — THE WOMAN YOU ARE
+══════════════════════════════════════ -->
+  <section id="woman">
+    <div class="particles-overlay" id="woman-particles"></div>
+    <p class="section-tag">✦ &nbsp; the woman you are &nbsp; ✦</p>
+    <h2 class="section-title"><span class="sparkle">Quiet</span><br>Extraordinary</h2>
+    <div class="divider"></div>
+
+    <div class="float-cards" id="fcards">
+      <div class="fcard">
+        <span class="fcard-accent"></span>
+        "you are the purest soul i have ever known.<br>
+        <em>True Sitha Devi energy.</em>"
+      </div>
+      <div class="fcard">
+        <span class="fcard-accent"></span>
+        "the calmest person in the room somehow carried the most.
+        strength sounded soft because of you."
+      </div>
+      <div class="fcard">
+        <span class="fcard-accent"></span>
+        "some people make sacrifices once.<br>
+        you made them every day —<br>silently, beautifully."
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 4 — THE SACRIFICE
+══════════════════════════════════════ -->
+  <section id="sacrifice">
+    <canvas id="galaxy-canvas" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></canvas>
+
+    <div class="sacrifice-inner">
+      <div class="icon-orbit">
+        <div class="orbit-ring">
+          <div class="orbit-dot"></div>
+        </div>
+        <div class="orbit-ring"></div>
+        <div class="orbit-core">🌙</div>
+      </div>
+
+      <span class="sac-line big">"You could have touched<br>the stars —"</span>
+      <span class="sac-line big">but you chose to raise one instead.</span>
+
+      <div class="divider"></div>
+
+      <div class="isro-badge">✦ &nbsp; ISRO Dream &nbsp; ✦</div>
+
+      <span class="sac-line gold">"you sacrificed an ISRO opportunity<br>and still became the center of our
+        universe."</span>
+      <span class="sac-line small" style="margin-top:16px">the universe may not know your story, but i do.</span>
+      <span class="sac-line small">"behind your calm smile were sacrifices no one noticed."</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 5 — PRESENT DAY
+══════════════════════════════════════ -->
+  <section id="present">
+    <h2 class="section-title"><span class="sparkle">Still Here.</span><br>Still You.</h2>
+    <div class="divider"></div>
+
+    <div class="present-grid" id="present-grid">
+      <div class="pgrid-item">
+        <div class="pgrid-glow"></div>
+        <img src="photo4.jpg" alt="photo">
+      </div>
+      <div class="pgrid-item">
+        <div class="pgrid-glow"></div>
+        <img src="photo5.jpg" alt="photo">
+      </div>
+      <div class="pgrid-item">
+        <div class="pgrid-glow"></div>
+        <img src="photo6.jpg" alt="photo">
+      </div>
+    </div>
+
+    <div class="present-lines" id="present-lines">
+      <span class="present-line">Still protecting.</span>
+      <span class="present-line">Still caring.</span>
+      <span class="present-line">Still making everything feel safe.</span>
+      <span class="present-line"
+        style="font-size:.85rem;color:rgba(250,247,244,.4);font-style:normal;font-family:'Outfit',sans-serif;letter-spacing:.05em">
+        some things never change. your love is one of them.
+      </span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 6 — LOVE NOTES
+══════════════════════════════════════ -->
+  <section id="notes" style="min-height:70svh;">
+    <div class="notes-title">
+      <h2 class="section-title" style="opacity:1;transform:none"><span class="sparkle">soft</span><br>reminders</h2>
+    </div>
+    <div id="notes-canvas"></div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     SECTION 7 — ENDING
+══════════════════════════════════════ -->
+  <section id="ending">
+    <canvas id="hearts-canvas"></canvas>
+
+    <p class="end-label">✦ &nbsp; with all my love &nbsp; ✦</p>
+    <h2 class="end-title"><span class="sparkle">I Love<br>You Mom</span></h2>
+    <div class="divider"></div>
+    <p class="end-sub">
+      If I carry even a fraction of your kindness,<br>
+      I’ll know I lived a meaningful life.
+    </p>
+    <p class="end-final">— thank you for making life feel like home —</p>
+  </section>
+
+  <!-- ══════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════ -->
+  <script>
+    /* ── STARFIELD ── */
+    (function () {
+      const c = document.getElementById('starfield'), ctx = c.getContext('2d');
+      let stars = [];
+      function resize() { c.width = innerWidth; c.height = innerHeight; init(); }
+      function init() {
+        stars = [];
+        for (let i = 0; i < 160; i++) stars.push({
+          x: Math.random() * c.width, y: Math.random() * c.height,
+          r: Math.random() * 1.2 + .2, a: Math.random(), da: (.001 + Math.random() * .003) * (Math.random() < .5 ? 1 : -1)
+        });
+      }
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        stars.forEach(s => {
+          s.a += s.da; if (s.a > 1 || s.a < 0) s.da *= -1;
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${s.a * 0.6})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      window.addEventListener('resize', resize); resize(); draw();
+    })();
+
+    /* ── GALAXY CANVAS (section 4) ── */
+    (function () {
+      const c = document.getElementById('galaxy-canvas'), ctx = c.getContext('2d');
+      let pts = [];
+      function resize() { c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight; init(); }
+      function init() {
+        pts = [];
+        for (let i = 0; i < 80; i++) pts.push({
+          x: Math.random() * c.width, y: Math.random() * c.height,
+          r: .8 + Math.random() * 1.8,
+          speed: .1 + Math.random() * .4,
+          color: Math.random() < .5 ? `rgba(212,191,240,` : `rgba(184,212,240,`,
+          a: Math.random()
+        });
+      }
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        pts.forEach(p => {
+          p.y -= p.speed; p.a += .005;
+          if (p.y < 0) { p.y = c.height; p.x = Math.random() * c.width; }
+          const alpha = (.4 + .4 * Math.sin(p.a));
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + alpha + ')'; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      new ResizeObserver(resize).observe(document.getElementById('sacrifice'));
+      resize(); draw();
+    })();
+
+    /* ── FLOATING PARTICLES (sections 1 & 3) ── */
+    function makeParticles(containerId, count) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = 2 + Math.random() * 5;
+        const x = Math.random() * 100;
+        const dur = 12 + Math.random() * 18;
+        const delay = Math.random() * 20;
+        p.style.cssText = `width:${size}px;height:${size}px;left:${x}%;bottom:-10px;--d:${dur}s;--dl:${-delay}s;opacity:.${2 + Math.floor(Math.random() * 5)}`;
+        el.appendChild(p);
+      }
+    }
+    makeParticles('intro-particles', 30);
+    makeParticles('woman-particles', 20);
+
+    /* ── SCROLL REVEAL ── */
+    const revealEls = document.querySelectorAll(
+      '.section-title,.mem-card,.fcard,.sac-line,.isro-badge,.pgrid-item,.present-line'
+    );
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: .15 });
+    revealEls.forEach(el => io.observe(el));
+
+    /* ── FLOATING LOVE NOTES ── */
+    (function () {
+      const notes = [
+        "thank you for every silent sacrifice.",
+        "your love built this family.",
+        "i grew up protected by your strength.",
+        "mothers make impossible things look normal.",
+        "you gave us everything while asking for nothing.",
+        "love looked effortless because you carried it so well.",
+        "the safest place i've ever known was beside you."
+      ];
+      const cont = document.getElementById('notes-canvas');
+      const section = document.getElementById('notes');
+      const colors = [
+        'rgba(244,194,208,.12)', 'rgba(212,191,240,.1)',
+        'rgba(184,212,240,.1)', 'rgba(232,213,176,.08)'
+      ];
+
+      notes.forEach((text, i) => {
+        const n = document.createElement('div');
+        n.className = 'float-note';
+        n.textContent = text;
+        const x = 5 + Math.random() * 65;
+        const y = 5 + Math.random() * 70;
+        const rot = (-4 + Math.random() * 8);
+        const dur = 10 + Math.random() * 10;
+        const delay = Math.random() * 8;
+        n.style.cssText = `left:${x}%;top:${y}%;--rot:${rot}deg;--dur:${dur}s;--delay:-${delay}s;
+      background:${colors[i % colors.length]};`;
+        cont.appendChild(n);
+      });
+
+      /* touch wiggle */
+      cont.addEventListener('touchmove', e => {
+        const t = e.touches[0];
+        document.querySelectorAll('.float-note').forEach(n => {
+          const r = n.getBoundingClientRect();
+          const dx = t.clientX - (r.left + r.width / 2);
+          const dy = t.clientY - (r.top + r.height / 2);
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) n.style.transform = `translate(${dx * .04}px,${dy * .04}px) rotate(${dx * .02}deg) scale(1.03)`;
+        });
+      }, { passive: true });
+    })();
+
+    /* ── HEARTS CANVAS (ending) ── */
+    (function () {
+      const c = document.getElementById('hearts-canvas'), ctx = c.getContext('2d');
+      let hearts = [];
+      function resize() { c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight; }
+
+      function Heart() {
+        this.x = 20 + Math.random() * (c.width - 40);
+        this.y = c.height + 20;
+        this.size = 6 + Math.random() * 14;
+        this.speed = .5 + Math.random() * .8;
+        this.opacity = .4 + Math.random() * .4;
+        this.wobble = Math.random() * Math.PI * 2;
+        this.color = Math.random() < .5 ? '#f4c2d0' : '#d4bff0';
+      }
+      function drawHeart(x, y, s, a, col) {
+        ctx.save();
+        ctx.globalAlpha = a;
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(x, y - s * .3, x - s * .5, y - s * .5, x - s * .5, y - s * .2);
+        ctx.bezierCurveTo(x - s * .5, y + s * .2, x, y + s * .5, x, y + s * .5);
+        ctx.bezierCurveTo(x, y + s * .5, x + s * .5, y + s * .2, x + s * .5, y - s * .2);
+        ctx.bezierCurveTo(x + s * .5, y - s * .5, x, y - s * .3, x, y);
+        ctx.fill();
+        ctx.restore();
+      }
+      function draw() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        if (Math.random() < .06) hearts.push(new Heart());
+        hearts = hearts.filter(h => h.y > -30);
+        hearts.forEach(h => {
+          h.y -= h.speed;
+          h.wobble += .02;
+          h.x += Math.sin(h.wobble) * .4;
+          drawHeart(h.x, h.y, h.size, h.opacity, h.color);
+        });
+        requestAnimationFrame(draw);
+      }
+      new ResizeObserver(resize).observe(document.getElementById('ending'));
+      resize(); draw();
+    })();
+
+    /* ── PARALLAX (desktop bonus) ── */
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      document.querySelectorAll('.glow-pink,.glow-blue,.glow-lav').forEach((g, i) => {
+        g.style.transform = `translateY(${y * (0.04 + i * .02)}px)`;
+      });
+    }, { passive: true });
+
+    /* ── LUXURY 3D TILT EFFECT ── */
+    document.querySelectorAll('.polaroid, .fcard, .pgrid-item, .note-bubble').forEach(p => {
+      p.addEventListener('mouseenter', () => {
+        p.style.transition = 'transform 0.1s ease-out, box-shadow 0.2s ease-out';
+      });
+      p.addEventListener('mousemove', e => {
+        const r = p.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width - .5) * 15;
+        const y = ((e.clientY - r.top) / r.height - .5) * -15;
+        const baseRot = p.style.getPropertyValue('--rot');
+
+        // Dynamic lighting effect
+        const lightX = ((e.clientX - r.left) / r.width - .5) * 30;
+        const lightY = ((e.clientY - r.top) / r.height - .5) * 30;
+        p.style.boxShadow = `${-lightX}px ${-lightY}px 40px rgba(232, 213, 176, 0.15), 0 20px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .2)`;
+
+        if (p.classList.contains('polaroid') && baseRot) {
+          p.style.transform = `rotate(${baseRot}) rotateX(${y}deg) rotateY(${x}deg) scale3d(1.05, 1.05, 1.05)`;
+        } else {
+          p.style.transform = `rotateX(${y}deg) rotateY(${x}deg) scale3d(1.02, 1.02, 1.02)`;
+        }
+      });
+      p.addEventListener('mouseleave', () => {
+        p.style.transition = 'transform 0.8s ease-out, box-shadow 0.8s ease-out';
+        p.style.transform = '';
+        p.style.boxShadow = '';
+      });
+    });
+
+    /* ── DYNAMIC TEXT SPARKLES (LUXURY CURSOR) ── */
+    function createSparkle(x, y) {
+      const s = document.createElement('div');
+      s.innerHTML = '✦';
+      s.style.position = 'fixed';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
+      s.style.color = '#e8d5b0';
+      s.style.fontSize = (Math.random() * 8 + 6) + 'px';
+      s.style.pointerEvents = 'none';
+      s.style.zIndex = 9999;
+      s.style.opacity = 0;
+      s.style.textShadow = '0 0 10px rgba(232, 213, 176, 0.8)';
+      s.style.transform = 'translate(-50%, -50%) scale(0) rotate(0deg)';
+      s.style.transition = 'all 1s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      document.body.appendChild(s);
+
+      requestAnimationFrame(() => {
+        s.style.opacity = 0.8;
+        s.style.transform = `translate(-50%, -50%) scale(1) rotate(${Math.random() * 90}deg)`;
+      });
+
+      setTimeout(() => {
+        s.style.opacity = 0;
+        s.style.transform = `translate(-50%, ${-20 - Math.random() * 20}px) scale(0) rotate(${Math.random() * 180}deg)`;
+      }, 800);
+
+      setTimeout(() => {
+        s.remove();
+      }, 1800);
+    }
+
+    let lastSparkleTime = 0;
+    document.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastSparkleTime > 50 && Math.random() < 0.25) {
+        createSparkle(e.clientX, e.clientY);
+        lastSparkleTime = now;
+      }
+    });
+
+    /* ── EXTRA 3D SCROLL & EFFECTS ── */
+    (function () {
+      // 3D Parallax Scrolling
+      window.addEventListener('scroll', () => {
+
+        document.querySelectorAll('.mem-card').forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const centerY = window.innerHeight / 2;
+          const dist = rect.top + rect.height / 2 - centerY;
+          const depth = Math.max(-200, -Math.abs(dist) * 0.2);
+          const rotate = dist * 0.02;
+          if (!card.matches(':hover') && card.classList.contains('visible')) {
+            card.style.transform = `translateY(0) translateZ(${depth}px) rotateX(${rotate}deg)`;
+          }
+        });
+
+        document.querySelectorAll('.fcard').forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const centerY = window.innerHeight / 2;
+          const dist = rect.top + rect.height / 2 - centerY;
+          const depth = Math.max(-300, -Math.abs(dist) * 0.3);
+          const rotate = dist * -0.015;
+          if (!card.matches(':hover') && card.classList.contains('visible')) {
+            card.style.transform = `translateY(0) scale(1) translateZ(${depth}px) rotateY(${rotate}deg)`;
+          }
+        });
+
+        document.querySelectorAll('.pgrid-item').forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const centerY = window.innerHeight / 2;
+          const dist = rect.top + rect.height / 2 - centerY;
+          const depth = Math.max(-150, -Math.abs(dist) * 0.15);
+          if (!card.matches(':hover') && card.classList.contains('visible')) {
+            card.style.transform = `translateY(0) scale(1) translateZ(${depth}px)`;
+          }
+        });
+      }, { passive: true });
+
+      // Generate Luxury Dust Particles
+      function createDust() {
+        const sections = document.querySelectorAll('section');
+        sections.forEach(sec => {
+          for (let i = 0; i < 6; i++) {
+            const d = document.createElement('div');
+            d.className = 'dust-particle';
+            const size = Math.random() * 4 + 2;
+            d.style.width = size + 'px';
+            d.style.height = size + 'px';
+            d.style.left = (Math.random() * 100) + '%';
+            d.style.top = (Math.random() * 100) + '%';
+            d.style.setProperty('--dur', (Math.random() * 10 + 10) + 's');
+            d.style.setProperty('--max-op', (Math.random() * 0.4 + 0.1).toFixed(2));
+            sec.appendChild(d);
+          }
+        });
+      }
+      createDust();
+    })();
+  </script>
+</body>
+
+</html>
