@@ -819,11 +819,13 @@
     }
 
     @keyframes noteFloat {
+
       0%,
       100% {
         transform: translateY(0) rotate(var(--rot, 0deg));
         opacity: 1;
       }
+
       50% {
         transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 2deg));
         opacity: 1;
@@ -920,7 +922,7 @@
         <div class="polaroid">
           <img src="1photo.jpg">
         </div>
-        <p class="polaroid-label">childhood</p>
+        <p class="polaroid-label">.</p>
       </div>
       <div class="mem-card" style="margin-left:auto">
         <div class="note-bubble">
@@ -946,7 +948,7 @@
         <div class="polaroid">
           <img src="photo3.jpg">
         </div>
-        <p class="polaroid-label">together</p>
+        <p class="polaroid-label">.</p>
       </div>
       <div class="mem-card" style="margin-left:auto">
         <div class="note-bubble">
@@ -1048,30 +1050,29 @@
   </section>
 
   <!-- ══════════════════════════════════════
-     SECTION 6 — LOVE NOTES
+     SECTION 6 & 7 — LOVE NOTES & ENDING (MERGED HEARTS)
 ══════════════════════════════════════ -->
-  <section id="notes" style="min-height:70svh;">
-    <div class="notes-title">
-      <h2 class="section-title" style="opacity:1;transform:none"><span class="sparkle">soft</span><br>reminders</h2>
-    </div>
-    <div id="notes-canvas"></div>
-  </section>
+  <div id="notes-ending-wrapper" style="position: relative; overflow: hidden;">
+    <canvas id="hearts-canvas" style="position: absolute; inset: 0; z-index: 0; pointer-events: none;"></canvas>
 
-  <!-- ══════════════════════════════════════
-     SECTION 7 — ENDING
-══════════════════════════════════════ -->
-  <section id="ending">
-    <canvas id="hearts-canvas"></canvas>
+    <section id="notes" style="min-height:70svh; position: relative; z-index: 1;">
+      <div class="notes-title">
+        <h2 class="section-title" style="opacity:1;transform:none"><span class="sparkle">soft</span><br>reminders</h2>
+      </div>
+      <div id="notes-canvas"></div>
+    </section>
 
-    <p class="end-label">✦ &nbsp; with all my love &nbsp; ✦</p>
-    <h2 class="end-title"><span class="sparkle">I Love<br>You Mom</span></h2>
-    <div class="divider"></div>
-    <p class="end-sub">
-      If I carry even a fraction of your kindness,<br>
-      I’ll know I lived a meaningful life.
-    </p>
-    <p class="end-final">— thank you for making life feel like home —</p>
-  </section>
+    <section id="ending" style="position: relative; z-index: 1; padding-top: 60px;">
+      <p class="end-label">✦ &nbsp; with all my love &nbsp; ✦</p>
+      <h2 class="end-title"><span class="sparkle">I Love<br>You Maa</span></h2>
+      <div class="divider"></div>
+      <p class="end-sub">
+        If I carry even a fraction of your kindness,<br>
+        I’ll know I lived a meaningful life.
+      </p>
+      <p class="end-final">— thank you for making life feel like home —</p>
+    </section>
+  </div>
 
   <!-- ══════════════════════════════════════
      JAVASCRIPT
@@ -1177,12 +1178,19 @@
         'rgba(184,212,240,.1)', 'rgba(232,213,176,.08)'
       ];
 
+      // Symmetrical Z-pattern for mobile/desktop to prevent overlap
+      const grid = [
+        { x: 8, y: 5 }, { x: 55, y: 15 },
+        { x: 12, y: 35 }, { x: 52, y: 45 },
+        { x: 8, y: 65 }, { x: 58, y: 70 },
+        { x: 30, y: 85 }
+      ];
       notes.forEach((text, i) => {
         const n = document.createElement('div');
         n.className = 'float-note';
         n.textContent = text;
-        const x = 5 + Math.random() * 55;
-        const y = 10 + Math.random() * 55; // Spread evenly
+        const x = grid[i].x + (Math.random() * 4 - 2);
+        const y = grid[i].y + (Math.random() * 4 - 2);
         const rot = (-4 + Math.random() * 8);
         const dur = 8 + Math.random() * 6;
         const delay = Math.random() * 5;
@@ -1244,7 +1252,7 @@
         });
         requestAnimationFrame(draw);
       }
-      new ResizeObserver(resize).observe(document.getElementById('ending'));
+      new ResizeObserver(resize).observe(document.getElementById('notes-ending-wrapper'));
       resize(); draw();
     })();
 
