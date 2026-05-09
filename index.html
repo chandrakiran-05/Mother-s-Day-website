@@ -816,14 +816,22 @@
     }
 
     @keyframes noteFloat {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(var(--rot, 0deg));
+      0% {
+        transform: translateY(100px) rotate(var(--rot, 0deg));
+        opacity: 0;
       }
 
-      50% {
-        transform: translateY(-18px) rotate(calc(var(--rot, 0deg) + 2deg));
+      10% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-80vh) rotate(calc(var(--rot, 0deg) + 15deg));
+        opacity: 0;
       }
     }
 
@@ -1179,10 +1187,10 @@
         n.className = 'float-note';
         n.textContent = text;
         const x = 5 + Math.random() * 65;
-        const y = 5 + Math.random() * 70;
-        const rot = (-4 + Math.random() * 8);
-        const dur = 10 + Math.random() * 10;
-        const delay = Math.random() * 8;
+        const y = 80 + Math.random() * 20; // Start near bottom for rising effect
+        const rot = (-4 + Math.random() * 10);
+        const dur = 14 + Math.random() * 10;
+        const delay = Math.random() * 14;
         n.style.cssText = `left:${x}%;top:${y}%;--rot:${rot}deg;--dur:${dur}s;--delay:-${delay}s;
       background:${colors[i % colors.length]};`;
         cont.appendChild(n);
@@ -1253,20 +1261,22 @@
       });
     }, { passive: true });
 
-    /* ── LUXURY 3D TILT EFFECT ── */
+    /* ── LUXURY 3D TILT EFFECT (FULLY TOUCH BASED) ── */
     document.querySelectorAll('.polaroid, .fcard, .pgrid-item, .note-bubble').forEach(p => {
-      p.addEventListener('mouseenter', () => {
+      function handleEnter() {
         p.style.transition = 'transform 0.1s ease-out, box-shadow 0.2s ease-out';
-      });
-      p.addEventListener('mousemove', e => {
+      }
+      function handleMove(e) {
         const r = p.getBoundingClientRect();
-        const x = ((e.clientX - r.left) / r.width - .5) * 15;
-        const y = ((e.clientY - r.top) / r.height - .5) * -15;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = ((clientX - r.left) / r.width - .5) * 15;
+        const y = ((clientY - r.top) / r.height - .5) * -15;
         const baseRot = p.style.getPropertyValue('--rot');
 
         // Dynamic lighting effect
-        const lightX = ((e.clientX - r.left) / r.width - .5) * 30;
-        const lightY = ((e.clientY - r.top) / r.height - .5) * 30;
+        const lightX = ((clientX - r.left) / r.width - .5) * 30;
+        const lightY = ((clientY - r.top) / r.height - .5) * 30;
         p.style.boxShadow = `${-lightX}px ${-lightY}px 40px rgba(232, 213, 176, 0.15), 0 20px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .2)`;
 
         if (p.classList.contains('polaroid') && baseRot) {
@@ -1274,12 +1284,20 @@
         } else {
           p.style.transform = `rotateX(${y}deg) rotateY(${x}deg) scale3d(1.02, 1.02, 1.02)`;
         }
-      });
-      p.addEventListener('mouseleave', () => {
+      }
+      function handleLeave() {
         p.style.transition = 'transform 0.8s ease-out, box-shadow 0.8s ease-out';
         p.style.transform = '';
         p.style.boxShadow = '';
-      });
+      }
+
+      p.addEventListener('mouseenter', handleEnter);
+      p.addEventListener('mousemove', handleMove);
+      p.addEventListener('mouseleave', handleLeave);
+
+      p.addEventListener('touchstart', handleEnter, { passive: true });
+      p.addEventListener('touchmove', handleMove, { passive: true });
+      p.addEventListener('touchend', handleLeave);
     });
 
     /* ── DYNAMIC TEXT SPARKLES (LUXURY CURSOR) ── */
@@ -1315,13 +1333,35 @@
     }
 
     let lastSparkleTime = 0;
-    document.addEventListener('mousemove', e => {
+    function triggerSparkles(x, y, isTouch = false) {
       const now = Date.now();
-      if (now - lastSparkleTime > 50 && Math.random() < 0.25) {
-        createSparkle(e.clientX, e.clientY);
+      const delay = isTouch ? 30 : 50; // Faster sparkles on touch
+      const chance = isTouch ? 0.7 : 0.25; // Higher chance on touch
+
+      if (now - lastSparkleTime > delay && Math.random() < chance) {
+        createSparkle(x, y);
+        if (isTouch && Math.random() < 0.5) {
+          // Extra glitter on touch
+          createSparkle(x + (Math.random() * 40 - 20), y + (Math.random() * 40 - 20));
+        }
         lastSparkleTime = now;
       }
+    }
+
+    document.addEventListener('mousemove', e => {
+      triggerSparkles(e.clientX, e.clientY);
     });
+
+    document.addEventListener('touchmove', e => {
+      triggerSparkles(e.touches[0].clientX, e.touches[0].clientY, true);
+    }, { passive: true });
+
+    document.addEventListener('touchstart', e => {
+      // Glitter burst on tap
+      for (let i = 0; i < 4; i++) {
+        createSparkle(e.touches[0].clientX + (Math.random() * 50 - 25), e.touches[0].clientY + (Math.random() * 50 - 25));
+      }
+    }, { passive: true });
 
     /* ── EXTRA 3D SCROLL & EFFECTS ── */
     (function () {
