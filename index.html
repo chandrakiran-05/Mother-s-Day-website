@@ -513,7 +513,7 @@
      SECTION 5 — PRESENT DAY
   ──────────────────────────────────────── */
     #present {
-      background: linear-gradient(180deg, #04060f 0%, #0d1020 60%, #0a0a12 100%);
+      background: linear-gradient(180deg, #04060f 0%, #0d0520 60%, #0a0a12 100%);
     }
 
     .present-grid {
@@ -602,8 +602,13 @@
     /* ────────────────────────────────────────
      SECTION 6 — LOVE NOTES
   ──────────────────────────────────────── */
+    #notes-ending-wrapper {
+      background: radial-gradient(ellipse 130% 60% at 50% 80%, #1a0830 0%, #0d0520 60%, transparent 100%),
+        linear-gradient(180deg, #0a0a12 0%, #0d0520 15%, #1a0830 35%, #04060f 55%, #04060f 100%);
+    }
+
     #notes {
-      background: #070711;
+      background: transparent;
       min-height: 80svh;
       position: relative;
     }
@@ -649,8 +654,7 @@
      SECTION 7 — ENDING
   ──────────────────────────────────────── */
     #ending {
-      background: radial-gradient(ellipse 130% 100% at 50% 50%,
-          #1a0830 0%, #0d0520 60%, #04060f 100%);
+      background: transparent;
       text-align: center;
       min-height: 100svh;
     }
